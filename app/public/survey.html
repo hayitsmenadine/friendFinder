@@ -121,12 +121,12 @@
 		<option value="5">5 (Strongly Agree)</option>
 	</select>
 
-	<button type="submit" class="btn btn-primary btn-lg btn-block" id="submit">Submit</button>
+	<button type="submit" class="btn btn-primary btn-lg btn-block"  data-toggle="modal" data-target="#modalResults" id="submit">Submit</button>
 </div>
 <footer>
         <div class="container">
             <a href="api/friends">API Friends</a> |
-            <a href="api/wait">GitHub Repo</a> | 
+            <a href="">GitHub Repo</a> | 
         </div>
     </footer>
 
@@ -147,13 +147,14 @@
     </div>
   </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
 
-	$("#submit").on("click", function(){
+<script type= "text/javascript">
+
+	$("#submit").on("click", function(event){
+		event.preventDefault();
 		var userData = {
-			name: $("#name").val(),
-			photo: $("#photo").val(),
+			name: $("#name").val().trim(),
+			photo: $("#photo").val().trim(),
 			scores: [
 			$("one").val(),
 			$("two").val(),
@@ -169,12 +170,14 @@
 			]
 		};
 
+		console.log(userData);
+
 		var url = window.location.origin;
 
 		$.post(url + "/api/friends", userData, function(data){
 			$("#matchName").text(data.name);
 			$("#matchImg").attr("src", data.photo);
-			$("modalResults").modal("toggle");
+			$("#modalResults").modal("toggle");
 		});
 	});
 
